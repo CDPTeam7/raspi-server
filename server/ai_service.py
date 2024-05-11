@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 from detection import *
 from tokens import *
 import requests
+from requests_toolbelt import MultipartEncoder
 
 # 전처리
 Ai_service = Namespace(
@@ -143,17 +144,22 @@ class face_recognition(Resource):
     def post(self):
         """입력된 얼굴 이미지에 대해 인증을 확인하여 로그인 여부를 구해줍니다."""
         frame = request.files["image"]
-        """frame.save("./static/face-recog/" + secure_filename(str(frame.filename)))
-        f = cv2.imread(("./static/face-recog/" + secure_filename(str(frame.filename))))"""
+        frame.save("./static/face-recog/" + secure_filename(str(frame.filename)))
+        # f = cv2.imread(("./static/face-recog/" + secure_filename(str(frame.filename))))
+        f = open("./static/face-recog/" + secure_filename(str(frame.filename)), "rb")
 
         try:
-            payload = {"image": frame}
-            headers = {"Content-Type": "multipart/form-data", "charset": "UTF-8"}
-            return requests.post(
-                "http://127.0.0.1:80/api/model/face-recognition",
-                files=payload,
+            payload = MultipartEncoder(fields={"image": f})
+            headers = {"content-type": "multipart/form-data", "charset": "UTF-8"}
+            r = requests.post(
+                "http://127.0.0.1/api/model/face-recognition",
+                data=payload,
                 headers=headers,
             )
+            print(type(r))
+            print(r)
+            print(r.json(), r.status_code)
+            return make_response(jsonify(r.json()), r.status_code)
         except Exception as e:
             print(e)
             print("No face detected in the target imaget or Error occured.")
@@ -162,3 +168,4 @@ class face_recognition(Resource):
                 "msg": "얼굴 인식 실패하였습니다.",
             }
             return make_response(jsonify(response), 400)
+        return make_response(jsonify({"data": 1}), 404)

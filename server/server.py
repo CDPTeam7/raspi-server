@@ -8,6 +8,11 @@ from auth import Auth
 from point import Point
 from ranking import Ranking
 from ai_service import Ai_service
+import os
+
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+import tensorflow as tf
 
 # 전처리
 app = Flask(__name__)  # flask 객체를 생성. __name__은 현재 실행 중인 모듈 이름

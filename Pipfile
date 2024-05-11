@@ -14,17 +14,15 @@ pillow = "==10.3.0"
 torchvision = "==0.15.0"
 ultralytics = "==8.1.44"
 numpy = "==1.23.5"
-gunicorn = "==21.2.0"
-deepface = "==0.0.91"
 pandas = "==2.2.2"
 ml-dtypes = "==0.4.0"
-facenet-pytorch = "==2.5"
 matplotlib = "==3.8.4"
+requests = "==2.23.0"
 jinja2 = "*"
+requests-toolbelt = "*"
 
 [dev-packages]
 torch = "==2.0.0"
 
 [requires]
 python_version = "3.11"
-python_full_version = "3.11.9"
