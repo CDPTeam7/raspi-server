@@ -1,12 +1,8 @@
 # from flask_cors import CORS # CORS 미들웨어를 위한 모듈
-from flask import Flask, request, jsonify  # flask 관련 라이브러리
+from flask import Flask  # flask 관련 라이브러리
 from flask_restx import (
     Api,
-    Resource,
-    Namespace,
-    fields,
 )  # Api 구현을 위한 Api 객체 import
-from database import db
 from tokens import *
 from auth import Auth
 from point import Point
@@ -27,14 +23,6 @@ api = Api(
     license="MIT",
 )
 # CORS(app, supports_credentials=True, resources={r'*': {'origins': 'http://localhost:3000'}})  # CORS 미들웨어 추가
-
-
-# 테스트 API 용 namespace
-TestAPI = Namespace(
-    name="TestAPI",
-    description="기본적인 테스트를 위한 API",
-)
-
 
 # namespace 추가
 api.add_namespace(Auth, "/api/auth")
