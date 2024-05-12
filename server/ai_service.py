@@ -9,7 +9,8 @@ from werkzeug.utils import secure_filename
 from detection import *
 from tokens import *
 import requests
-from requests_toolbelt import MultipartEncoder
+
+# from requests_toolbelt import MultipartEncoder
 
 # 전처리
 Ai_service = Namespace(
@@ -149,16 +150,14 @@ class face_recognition(Resource):
         f = open("./static/face-recog/" + secure_filename(str(frame.filename)), "rb")
 
         try:
-            payload = MultipartEncoder(fields={"image": f})
-            headers = {"content-type": "multipart/form-data", "charset": "UTF-8"}
+            # payload = MultipartEncoder(fields={"image": f})
+            payload = {"image": f}
+            # headers = {"content-type": "multipart/form-data", "charset": "UTF-8"}
             r = requests.post(
                 "http://127.0.0.1/api/model/face-recognition",
-                data=payload,
-                headers=headers,
+                files=payload,
+                # headers=headers,
             )
-            print(type(r))
-            print(r)
-            print(r.json(), r.status_code)
             return make_response(jsonify(r.json()), r.status_code)
         except Exception as e:
             print(e)
@@ -168,4 +167,3 @@ class face_recognition(Resource):
                 "msg": "얼굴 인식 실패하였습니다.",
             }
             return make_response(jsonify(response), 400)
-        return make_response(jsonify({"data": 1}), 404)

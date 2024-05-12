@@ -1,9 +1,11 @@
-from deepface import DeepFace
+# from deepface import DeepFace
 from database import db
-import math
+
+# import math
 import cv2
 from ultralytics import YOLO
-import torch
+
+# import torch
 
 pet_model = YOLO("./server/model/best.pt")
 
@@ -64,6 +66,7 @@ def image_detection(image_path):
     return target_count
 
 
+"""
 # target image의 embedding 정보 얻기
 def get_target_embedding(target_img_path):
     try:
@@ -125,3 +128,4 @@ def verify(target, candidate):
     )
 
     return result["verified"]
+"""
